@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
 import com.dilip.rabbit.msg.model.Person;
 
 @Component
-public class QueueSender {
+public class QueueSenderSimple {
 
 	@Autowired
 	private RabbitTemplate rabbitTemplate;
 
-	@Autowired
-	private Queue queue;
+	//@Autowired
+	//private Queue queueSimple;
 
 	/*
 	 * @Autowired private DirectExchange exchange;
@@ -26,12 +26,12 @@ public class QueueSender {
 	@Value("${rabbitmq.exchange.name}")
 	private String exchange;
 
-	@Value("${rabbitmq.routingkey}")
-	private String routingkey;
+	@Value("${rabbitmq.simple.routingkey}")
+	private String routingkeySimple;
 
-	public void sendPerson(Person person) throws InterruptedException {
+	public void sendSimple(String message) throws InterruptedException {
 		//Thread.sleep(10000);
 		//rabbitTemplate.convertAndSend(this.queue.getName(), order);
-		rabbitTemplate.convertAndSend(exchange, routingkey, person);
+		rabbitTemplate.convertAndSend(exchange, routingkeySimple, message);
 	}
 }

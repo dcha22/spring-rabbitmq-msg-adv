@@ -15,21 +15,37 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SenderConfig {
-
+	// queue for json objects
 	@Value("${rabbitmq.queue.name}")
 	private String queueName;
+	
+	// queue for simple string messages
+	@Value("${rabbitmq.simple.queue.name}")
+	private String queueNameSimple;
 
 	@Value("${rabbitmq.exchange.name}")
 	private String exchange;
-
+	
+	// for Json Messages
 	@Value("${rabbitmq.routingkey}")
 	private String routingkey;
-
+	
+	// For simple text messages
+	@Value("${rabbitmq.simple.routingkey}")
+	private String routingkeySimple;
+	
+	
 	@Bean
 	public Queue queue() {
 		return new Queue(this.queueName, true);
 	}
 
+	@Bean
+	public Queue queueSimple() {
+		return new Queue(this.queueNameSimple, true);
+	}
+	
+	
 	@Bean
 	public DirectExchange exchange() {
 		return new DirectExchange(exchange);
@@ -42,7 +58,14 @@ public class SenderConfig {
 	Binding binding(Queue queue, DirectExchange exchange) { 
 		return BindingBuilder.bind(queue).to(exchange).with(routingkey); 
 	}
-
+	
+	/*
+	 * This bean will bind the simple text message in exchange to a queue.
+	 */
+	@Bean 
+	Binding bindingSimple(Queue queueSimple, DirectExchange exchange) { 
+		return BindingBuilder.bind(queueSimple).to(exchange).with(routingkeySimple); 
+	}
 
 	/*
 	 * This is a converter bean to turn the payload of a message from serialized form

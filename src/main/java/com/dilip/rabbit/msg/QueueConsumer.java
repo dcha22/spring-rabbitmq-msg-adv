@@ -12,16 +12,13 @@ import com.dilip.rabbit.msg.model.Person;
 @Component
 public class QueueConsumer {
 	
-//	@RabbitListener(queues = {"${rabbitmq.queue.name}"})
-//	public void receive(@Payload String body) {
-//		System.out.println("Messge:  "+ body);
-//	}
+	@RabbitListener(queues = {"${rabbitmq.simple.queue.name}"})
+	public void receive(@Payload String body) {
+		System.out.println("Messge:  "+ body);
+	}
 	
 	@RabbitListener(queues = {"${rabbitmq.queue.name}"})
 	public void receivePerson(@Payload Person person) {
-		//Person _person = person;
-		
-		//System.out.println("Messge:  "+ _person);
 		System.out.println("Messge:  "+ person);
 	}
 }

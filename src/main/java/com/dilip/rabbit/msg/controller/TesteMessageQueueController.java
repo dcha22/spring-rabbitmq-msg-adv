@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dilip.rabbit.msg.QueueSender;
+import com.dilip.rabbit.msg.QueueSenderSimple;
 import com.dilip.rabbit.msg.model.Person;
 
 @RestController
@@ -23,9 +24,12 @@ public class TesteMessageQueueController {
 	@Autowired
 	private QueueSender queueSender;
 	
+	@Autowired 
+	private QueueSenderSimple queueSenderSimple;
+	
 	@GetMapping("/rabbitmsg")
 	public String send() throws InterruptedException {
-		queueSender.send("This is test message");
+		queueSenderSimple.sendSimple("This is test message for Simple Message Queue");
 		return "ok.finished";
 	}
 	
